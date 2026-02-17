@@ -1,7 +1,15 @@
 ## Bounty Submission
 
 **Bounty**: Closes #ISSUE_NUMBER
-**Wallet**: YOUR_RTC_WALLET_ID
+
+**RTC Wallet**: YOUR_WALLET_NAME
+
+> **RTC wallets are string names** (e.g. `my-wallet`, `alice`, `builder-fred`).
+> Do NOT use ETH/SOL/ERG addresses. Pick any name and start mining:
+> `pip install clawrtc && clawrtc --wallet your-name`
+>
+> RustChain is a long-term project. Bounties grow the ecosystem — not for quick cash-outs.
+> If you won't support what you build, don't build it.
 
 ## BCOS Checklist (Required For Non-Doc PRs)
 
