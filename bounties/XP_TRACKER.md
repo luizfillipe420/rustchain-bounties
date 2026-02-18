@@ -45,12 +45,21 @@ Welcome to the Hall of Hunters. Contributors earn XP for meaningful work and unl
 | 1 | @createkr | _TBD_ | 3300 | 5 | Multiplier Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) ![Multiplier Hunter](https://img.shields.io/badge/Multiplier%20Hunter-yellow?style=flat-square&logo=star&logoColor=black) ![Rising Hunter](https://img.shields.io/badge/Rising%20Hunter-orange?style=flat-square&logo=rocket&logoColor=white) ![Tutorial Titan](https://img.shields.io/badge/Tutorial%20Titan-blue?style=flat-square&logo=book&logoColor=white) | 2026-02-18 21:20 UTC (+300 XP: PR merged) | auto-tracked |
 | 2 | @energypantry | _TBD_ | 1050 | 4 | Rising Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) ![Rising Hunter](https://img.shields.io/badge/Rising%20Hunter-orange?style=flat-square&logo=rocket&logoColor=white) ![Tutorial Titan](https://img.shields.io/badge/Tutorial%20Titan-blue?style=flat-square&logo=book&logoColor=white) | 2026-02-18 21:20 UTC (+300 XP: PR merged) | auto-tracked |
 | 3 | @zhanglinqian | _TBD_ | 1050 | 4 | Rising Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) ![Rising Hunter](https://img.shields.io/badge/Rising%20Hunter-orange?style=flat-square&logo=rocket&logoColor=white) ![Tutorial Titan](https://img.shields.io/badge/Tutorial%20Titan-blue?style=flat-square&logo=book&logoColor=white) | 2026-02-18 21:20 UTC (+300 XP: PR merged) | auto-tracked |
-| 4 | @zhddoge-ai | _TBD_ | 750 | 3 | Priority Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) ![Tutorial Titan](https://img.shields.io/badge/Tutorial%20Titan-blue?style=flat-square&logo=book&logoColor=white) | 2026-02-18 21:20 UTC (+300 XP: PR merged) | auto-tracked |
-| 5 | @whyg826 | _TBD_ | 450 | 2 | Basic Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) ![Tutorial Titan](https://img.shields.io/badge/Tutorial%20Titan-blue?style=flat-square&logo=book&logoColor=white) | 2026-02-18 21:20 UTC (+450 XP: PR merged, tutorial/docs) | auto-tracked |
-| 6 | @David-code-tang | _TBD_ | 300 | 2 | Basic Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) | 2026-02-18 21:20 UTC (+300 XP: PR merged) | auto-tracked |
-| 7 | @godong0128 | _TBD_ | 300 | 2 | Basic Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) | 2026-02-18 21:20 UTC (+300 XP: PR merged) | auto-tracked |
-| 8 | @liu971227-sys | _TBD_ | 300 | 2 | Basic Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) | 2026-02-18 21:20 UTC (+300 XP: PR merged) | auto-tracked |
-| 9 | @sophiaeagent-beep | _TBD_ | 300 | 2 | Basic Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) | 2026-02-18 21:20 UTC (+300 XP: PR merged) | auto-tracked |
+| 4 | @liu971227-sys | _TBD_ | 900 | 3 | Priority Hunter | ![Bug Slayer](https://img.shields.io/badge/Bug%20Slayer-darkred?style=flat-square&logo=bug&logoColor=white) ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) | 2026-02-18 21:23 UTC (+300 XP: critical tier) | auto-tracked |
+| 5 | @zhddoge-ai | _TBD_ | 750 | 3 | Priority Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) ![Tutorial Titan](https://img.shields.io/badge/Tutorial%20Titan-blue?style=flat-square&logo=book&logoColor=white) | 2026-02-18 21:20 UTC (+300 XP: PR merged) | auto-tracked |
+| 6 | @whyg826 | _TBD_ | 450 | 2 | Basic Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) ![Tutorial Titan](https://img.shields.io/badge/Tutorial%20Titan-blue?style=flat-square&logo=book&logoColor=white) | 2026-02-18 21:20 UTC (+450 XP: PR merged, tutorial/docs) | auto-tracked |
+| 7 | @David-code-tang | _TBD_ | 400 | 2 | Basic Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) | 2026-02-18 21:23 UTC (+100 XP: standard tier) | auto-tracked |
+| 8 | @godong0128 | _TBD_ | 300 | 2 | Basic Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) | 2026-02-18 21:20 UTC (+300 XP: PR merged) | auto-tracked |
+| 9 | @Scottcjn | _TBD_ | 300 | 2 | Basic Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) | 2026-02-18 21:23 UTC (+300 XP: PR merged) | auto-tracked |
+| 10 | @sophiaeagent-beep | _TBD_ | 300 | 2 | Basic Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) | 2026-02-18 21:20 UTC (+300 XP: PR merged) | auto-tracked |
+| 11 | @BuilderFred | _TBD_ | 100 | 1 | Starting Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) | 2026-02-18 21:23 UTC (+50 XP: micro tier) | auto-tracked |
+| 12 | @EugeneJarvis88 | _TBD_ | 100 | 1 | Starting Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) | 2026-02-18 21:23 UTC (+50 XP: micro tier) | auto-tracked |
+| 13 | @Abdul-nazeer | _TBD_ | 50 | 1 | Starting Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) | 2026-02-18 21:23 UTC (+50 XP: micro tier) | auto-tracked |
+| 14 | @Best-creator | _TBD_ | 50 | 1 | Starting Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) | 2026-02-18 21:23 UTC (+50 XP: micro tier) | auto-tracked |
+| 15 | @BoozeLee | _TBD_ | 50 | 1 | Starting Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) | 2026-02-18 21:23 UTC (+50 XP: micro tier) | auto-tracked |
+| 16 | @dlin38 | _TBD_ | 50 | 1 | Starting Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) | 2026-02-18 21:23 UTC (+50 XP: micro tier) | auto-tracked |
+| 17 | @juzigu40-ui | _TBD_ | 50 | 1 | Starting Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) | 2026-02-18 21:23 UTC (+50 XP: micro tier) | auto-tracked |
+| 18 | @mgrigajtis | _TBD_ | 50 | 1 | Starting Hunter | ![First Blood](https://img.shields.io/badge/First%20Blood-red?style=flat-square&logo=git&logoColor=white) | 2026-02-18 21:23 UTC (+50 XP: micro tier) | auto-tracked |
 
 ## Badge Gallery (Integrated shields.io URLs)
 
@@ -80,6 +89,21 @@ Per-hunter dynamic badge pattern:
 
 ## Latest Awards
 
+- 2026-02-18 21:23 UTC: @liu971227-sys earned **300 XP** (critical tier) -> Total: 900 XP (Level 3 - Priority Hunter) | New badges: Bug Slayer
+- 2026-02-18 21:23 UTC: @liu971227-sys earned **200 XP** (major tier) -> Total: 600 XP (Level 3 - Priority Hunter)
+- 2026-02-18 21:23 UTC: @David-code-tang earned **100 XP** (standard tier) -> Total: 400 XP (Level 2 - Basic Hunter)
+- 2026-02-18 21:23 UTC: @liu971227-sys earned **100 XP** (standard tier) -> Total: 400 XP (Level 2 - Basic Hunter)
+- 2026-02-18 21:23 UTC: @juzigu40-ui earned **50 XP** (micro tier) -> Total: 50 XP (Level 1 - Starting Hunter) | New badges: First Blood
+- 2026-02-18 21:23 UTC: @BoozeLee earned **50 XP** (micro tier) -> Total: 50 XP (Level 1 - Starting Hunter) | New badges: First Blood
+- 2026-02-18 21:23 UTC: @dlin38 earned **50 XP** (micro tier) -> Total: 50 XP (Level 1 - Starting Hunter) | New badges: First Blood
+- 2026-02-18 21:23 UTC: @Best-creator earned **50 XP** (micro tier) -> Total: 50 XP (Level 1 - Starting Hunter) | New badges: First Blood
+- 2026-02-18 21:23 UTC: @Abdul-nazeer earned **50 XP** (micro tier) -> Total: 50 XP (Level 1 - Starting Hunter) | New badges: First Blood
+- 2026-02-18 21:23 UTC: @mgrigajtis earned **50 XP** (micro tier) -> Total: 50 XP (Level 1 - Starting Hunter) | New badges: First Blood
+- 2026-02-18 21:23 UTC: @EugeneJarvis88 earned **50 XP** (micro tier) -> Total: 100 XP (Level 1 - Starting Hunter)
+- 2026-02-18 21:23 UTC: @BuilderFred earned **50 XP** (micro tier) -> Total: 100 XP (Level 1 - Starting Hunter)
+- 2026-02-18 21:23 UTC: @EugeneJarvis88 earned **50 XP** (micro tier) -> Total: 50 XP (Level 1 - Starting Hunter) | New badges: First Blood
+- 2026-02-18 21:23 UTC: @BuilderFred earned **50 XP** (micro tier) -> Total: 50 XP (Level 1 - Starting Hunter) | New badges: First Blood
+- 2026-02-18 21:23 UTC: @Scottcjn earned **300 XP** (PR merged) -> Total: 300 XP (Level 2 - Basic Hunter) | New badges: First Blood
 - 2026-02-18 21:20 UTC: @createkr earned **300 XP** (PR merged) -> Total: 3300 XP (Level 5 - Multiplier Hunter)
 - 2026-02-18 21:20 UTC: @createkr earned **300 XP** (PR merged) -> Total: 3000 XP (Level 5 - Multiplier Hunter)
 - 2026-02-18 21:20 UTC: @createkr earned **300 XP** (PR merged) -> Total: 2700 XP (Level 5 - Multiplier Hunter)
