@@ -16,7 +16,10 @@ body:
         **RTC wallets are simple string names**, not blockchain addresses.
         Pick any name you like: `my-cool-wallet`, `alice`, `builder-fred`, etc.
 
-        Start mining: `pip install clawrtc && clawrtc --wallet your-name`
+        Start mining with reproducible instructions only:
+        - use pinned versions/commits
+        - provide checksum or container digest
+        - avoid unpinned `pip install` in bounty posts
 
         **Do NOT submit ETH, SOL, or ERG addresses as your wallet.**
         Those chains (Solana wRTC, Ergo anchoring) exist for bridging INTO the RTC economy — not for cashing out.
