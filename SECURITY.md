@@ -27,9 +27,18 @@ Preferred:
 
 - GitHub Private Vulnerability Reporting (Security Advisories)
 
-Alternative:
 
-- Open a private disclosure request via maintainer contact listed in repository profile
+## Security Contact
+
+Preferred channel:
+
+- GitHub Private Vulnerability Reporting (Security Advisories in this repository)
+
+Alternative channel:
+
+- security@elyanlabs.com (include repo, reproduction steps, impact, and proof)
+
+PGP can be shared on request for encrypted disclosure.
 
 Please include:
 
@@ -96,3 +105,13 @@ Valid reports may receive:
 - RTC bounty payout
 - optional Hall of Hunters recognition
 - follow-on hardening bounty invitations
+
+
+## Payout Timing and Confirmation
+
+- RTC payouts are queued with a public `pending_id` and `tx_hash` before confirmation.
+- Standard pending window is 24h unless a bounty explicitly states otherwise.
+- Maintainers may void a pending payout with public reason if duplicate/fraud evidence appears.
+- Confirmed payouts are publicly auditable in the ledger issue.
+
+
