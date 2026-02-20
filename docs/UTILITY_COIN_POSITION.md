@@ -1,6 +1,6 @@
 # RustChain Utility Coin Position (No ICO / Self-Funded)
 
-Last updated: 2026-02-20
+Last updated: 2026-02-20 (rev B)
 
 This document explains RustChain's operating position for RTC and contributor payouts.
 It is a policy statement for transparency, not legal advice.
@@ -53,8 +53,16 @@ We structure operations to avoid investment-contract behavior:
 ## Funding and Compensation Disclosure
 
 - Bounties are optional open-source incentives paid in native RTC for verified work.
-- If a contributor requires USDC/USD escrow rails, this program is not the right fit today.
-- We do not guarantee token value, liquidity, or market access.
+- We may support optional wrapped rails (for example wRTC/eRTC) as operational on-ramps/bridges when available.
+- Wrapped rails are utility transport paths, not redemption guarantees.
+- We do not guarantee token value, liquidity, market depth, convertibility, or cash-out timing.
+- If a contributor requires guaranteed USDC/USD escrow settlement, this program may not be the right fit today.
+
+## Optional Wrapped Rails (wRTC / eRTC)
+
+- Any wrapped rail is subject to bridge uptime, external counterparties, and market conditions.
+- Availability can be intermittent; routes may be paused, changed, or unavailable.
+- Use of wrapped rails does not create ownership rights or yield guarantees.
 
 ## Public Auditability
 

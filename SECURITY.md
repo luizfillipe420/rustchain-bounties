@@ -86,6 +86,7 @@ Bonuses may be granted for clear reproducibility, exploit reliability, and patch
 
 - Bounty payouts are offered in project-native tokens unless explicitly stated otherwise.
 - No token price, market value, liquidity, convertibility, or future appreciation is guaranteed.
+- Optional wrapped rails (for example wRTC/eRTC) may be supported as operational bridges, but no redemption or cash-out guarantee is provided.
 - Participation in this open-source program is not an investment contract and does not create ownership rights.
 - Funding/utility position reference: `docs/UTILITY_COIN_POSITION.md`
 - Rewards are recognition for accepted security work: respect earned through contribution.
