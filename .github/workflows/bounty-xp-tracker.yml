@@ -67,12 +67,15 @@ jobs:
 
           cat xp_result.json
 
-          echo "awarded_xp=$(python -c \"import json;print(json.load(open('xp_result.json'))['awarded_xp'])\")" >> "$GITHUB_OUTPUT"
-          echo "total_xp=$(python -c \"import json;print(json.load(open('xp_result.json'))['total_xp'])\")" >> "$GITHUB_OUTPUT"
-          echo "level=$(python -c \"import json;print(json.load(open('xp_result.json'))['level'])\")" >> "$GITHUB_OUTPUT"
-          echo "title=$(python -c \"import json;print(json.load(open('xp_result.json'))['title'])\")" >> "$GITHUB_OUTPUT"
-          echo "reason=$(python -c \"import json;print(json.load(open('xp_result.json'))['reason'])\")" >> "$GITHUB_OUTPUT"
 
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+
+          data = json.load(open("xp_result.json", "r", encoding="utf-8"))
+          for key in ("awarded_xp", "total_xp", "level", "title", "reason"):
+              value = data.get(key, "")
+              print(f"{key}={value}")
+          PY
       - name: Comment XP update on issue
         if: ${{ github.event_name == 'issues' && github.event.issue.number }}
         uses: peter-evans/create-or-update-comment@v4
