@@ -75,6 +75,17 @@ DEFAULT_TARGETS = [
     {
         "owner": "Scottcjn",
         "repo": "rustchain-bounties",
+        "issue": 374,
+        "min_account_age_days": 30,
+        "required_stars": [],
+        "require_wallet": True,
+        "require_bottube_username": False,
+        "require_proof_link": True,
+        "name": "First Attest Bonus",
+    },
+    {
+        "owner": "Scottcjn",
+        "repo": "rustchain-bounties",
         "issue": 157,
         "min_account_age_days": 30,
         "required_stars": ["beacon-skill"],
