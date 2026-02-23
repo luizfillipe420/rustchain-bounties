@@ -265,6 +265,24 @@ Node host preflight: `docs/NODE_HOST_PREFLIGHT_CHECKLIST.md`
 
 Bundled baseline: `expected_miners.txt`
 
+## Bounty Hunter Badges (v2)
+
+Show off your progress in the Hall of Hunters! Every hunter has access to dynamic, live-updating badges.
+
+### Hunter Dashboard
+See the full leaderboard and your stats in the [XP Tracker](bounties/XP_TRACKER.md).
+
+### Showcase Your Stats
+Hunters can use these dynamic Shields.io badges in their own READMEs or profiles:
+
+- **XP & Level**: `https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Scottcjn/rustchain-bounties/main/badges/hunters/<your-github-username>.json`
+- **Bounties Completed**: `https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Scottcjn/rustchain-bounties/main/badges/hunters/<your-github-username>-bounties.json`
+- **Total RTC Earned**: `https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Scottcjn/rustchain-bounties/main/badges/hunters/<your-github-username>-rtc.json`
+- **Account Age**: `https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Scottcjn/rustchain-bounties/main/badges/hunters/<your-github-username>-age.json`
+
+*(Replace `<your-github-username>` with your actual handle, lowercase).*
+
+---
 24h follow-up issue helper:
 ```bash
 ./scripts/post_issue374_followup.sh 374 --dry-run

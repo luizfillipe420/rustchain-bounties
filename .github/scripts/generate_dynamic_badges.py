@@ -10,6 +10,9 @@ Outputs:
 - badges/top-3-hunters.json
 - badges/weekly-growth.json
 - badges/hunters/<hunter>.json (per hunter)
+- badges/hunters/<hunter>-bounties.json
+- badges/hunters/<hunter>-rtc.json
+- badges/hunters/<hunter>-age.json
 """
 
 from __future__ import annotations
@@ -20,12 +23,15 @@ import json
 import re
 from pathlib import Path
 from typing import Dict, List, Any
+import requests
 
+API_BASE = "https://50.28.86.131"
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--tracker", default="bounties/XP_TRACKER.md")
     parser.add_argument("--out-dir", default="badges")
+    parser.add_argument("--skip-api", action="store_true", help="Skip RustChain API calls")
     return parser.parse_args()
 
 
@@ -72,6 +78,7 @@ def parse_rows(md_text: str) -> List[Dict[str, Any]]:
             "title": cells[5],
             "badges": cells[6],
             "last_action": cells[7],
+            "notes": cells[8],
         }
         rows.append(row)
         i += 1
@@ -135,6 +142,51 @@ def calculate_weekly_growth(rows: List[Dict[str, Any]]) -> int:
                 continue
     return total_growth
 
+
+def get_hunter_metrics(hunter_name: str, md_text: str) -> Dict[str, Any]:
+    """Calculate per-hunter metrics from the whole XP_TRACKER file."""
+    # Count occurrences of @hunter_name in Latest Awards
+    # Award line format: "- 2026-02-13 00:00 UTC: @username earned..."
+    hunter_handle = hunter_name if hunter_name.startswith("@") else f"@{hunter_name}"
+    
+    awards_section = md_text.split("## Latest Awards")[-1]
+    # Filter for approved/merged/completed bounties
+    completed_pattern = re.compile(rf"- .*?: {re.escape(hunter_handle)} earned .*? \((merged|approved|closed|tutorial|docs|bug|vintage|outreach)")
+    completed_count = len(completed_pattern.findall(awards_section))
+    
+    # RTC Earned: sum all "(\d+) RTC" matches in hunter's award lines
+    rtc_pattern = re.compile(rf"- .*?: {re.escape(hunter_handle)} earned .*? \((?:.*?,\s*)?(\d+)\s*RTC\)")
+    total_rtc = sum(int(amt) for amt in rtc_pattern.findall(awards_section))
+    
+    return {
+        "completed": completed_count,
+        "rtc": total_rtc
+    }
+
+def fetch_onchain_ages() -> Dict[str, str]:
+    """Fetch all miner info once and return a map of miner -> age_string."""
+    ages = {}
+    try:
+        resp = requests.get(f"{API_BASE}/api/miners", verify=False, timeout=10)
+        if resp.status_code == 200:
+            miners = resp.json()
+            now = dt.datetime.now(dt.UTC)
+            for m in miners:
+                miner_id = m.get("miner")
+                first = m.get("first_attest")
+                if miner_id and first:
+                    first_dt = dt.datetime.fromtimestamp(first, dt.UTC)
+                    delta = now - first_dt
+                    if delta.days > 365:
+                        age_str = f"{delta.days // 365}y { (delta.days % 365) // 30 }m"
+                    elif delta.days > 30:
+                        age_str = f"{delta.days // 30}m {delta.days % 30}d"
+                    else:
+                        age_str = f"{delta.days}d"
+                    ages[miner_id] = age_str
+    except Exception as e:
+        print(f"Warning: Failed to fetch on-chain ages: {e}")
+    return ages
 
 def main() -> None:
     args = parse_args()
@@ -222,6 +274,9 @@ def main() -> None:
         logo_color="white",
     )
 
+    # Fetch on-chain ages once if not skipped
+    onchain_ages = fetch_onchain_ages() if not args.skip_api else {}
+
     # Reset per-hunter directory before writing fresh files.
     hunters_dir = out_dir / "hunters"
     hunters_dir.mkdir(parents=True, exist_ok=True)
@@ -234,12 +289,49 @@ def main() -> None:
         level = int(row["level"])
         title = str(row["title"])
         slug = slugify_hunter(hunter)
+        
+        # Core XP Badge
         write_badge(
             hunters_dir / f"{slug}.json",
             label=f"{hunter} XP",
             message=f"{xp} (L{level} {title})",
             color=color_for_level(level),
             named_logo="github",
+            logo_color="white",
+        )
+        
+        # V2 Richer Metrics
+        metrics = get_hunter_metrics(hunter, md_text)
+        
+        # Bounties Completed
+        write_badge(
+            hunters_dir / f"{slug}-bounties.json",
+            label="Bounties",
+            message=str(metrics["completed"]),
+            color="brightgreen" if metrics["completed"] > 0 else "blue",
+            named_logo="check-circle",
+            logo_color="white",
+        )
+        
+        # Total RTC Earned
+        write_badge(
+            hunters_dir / f"{slug}-rtc.json",
+            label="RTC Earned",
+            message=f"{metrics['rtc']} RTC",
+            color="orange" if metrics["rtc"] > 0 else "blue",
+            named_logo="bitcoin", # Shields.io has bitcoin logo, good for RTC
+            logo_color="white",
+        )
+        
+        # Account Age (On-chain)
+        miner_id = hunter.lstrip("@")
+        age = onchain_ages.get(miner_id, "unknown")
+        write_badge(
+            hunters_dir / f"{slug}-age.json",
+            label="Account Age",
+            message=age,
+            color="blue",
+            named_logo="clock",
             logo_color="white",
         )
 

@@ -136,6 +136,12 @@ def calculate_xp(event_type: str, event_action: str, labels: Set[str], pr_merged
     if "vintage" in labels:
         xp += 100
         reasons.append("vintage bonus")
+
+    # RTC extraction from labels or comments would go here.
+    # For now, we rely on the award reason containing "X RTC" for the badge script.
+    rtc_match = re.search(r"(\d+)\s*rtc", (",".join(labels)).lower())
+    if rtc_match:
+        reasons.append(f"{rtc_match.group(1)} RTC")
     if "outreach" in labels or "seo" in labels or "marketing" in labels:
         xp += 30
         reasons.append("outreach bonus")

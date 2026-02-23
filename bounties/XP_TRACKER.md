@@ -101,6 +101,17 @@ Welcome to the Hall of Hunters. Contributors earn XP for meaningful work and unl
 Per-hunter dynamic badge pattern:
 `https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Scottcjn/rustchain-bounties/main/badges/hunters/<hunter-slug>.json`
 
+V2 Hunter Metrics (Richer Metrics):
+- **Bounties Completed**: `https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Scottcjn/rustchain-bounties/main/badges/hunters/<hunter-slug>-bounties.json`
+- **Total RTC Earned**: `https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Scottcjn/rustchain-bounties/main/badges/hunters/<hunter-slug>-rtc.json`
+- **Account Age (On-chain)**: `https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Scottcjn/rustchain-bounties/main/badges/hunters/<hunter-slug>-age.json`
+
+### Example for Hunter @liu971227-sys:
+- **XP**: ![XP](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Scottcjn/rustchain-bounties/main/badges/hunters/liu971227-sys.json)
+- **Bounties**: ![Bounties](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Scottcjn/rustchain-bounties/main/badges/hunters/liu971227-sys-bounties.json)
+- **RTC Earned**: ![RTC](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Scottcjn/rustchain-bounties/main/badges/hunters/liu971227-sys-rtc.json)
+- **Age**: ![Age](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Scottcjn/rustchain-bounties/main/badges/hunters/liu971227-sys-age.json)
+
 ## Backfill Notes
 
 - This tracker was backfilled from historical payout data in issue #104

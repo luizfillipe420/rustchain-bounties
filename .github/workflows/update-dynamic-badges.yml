@@ -24,6 +24,9 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install dependencies
+        run: pip install requests
+
       - name: Generate badge JSON
         run: |
           python .github/scripts/generate_dynamic_badges.py \
