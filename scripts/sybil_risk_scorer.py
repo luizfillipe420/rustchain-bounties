@@ -245,18 +245,48 @@ def score_claims(
 
         best_similarity = 0.0
         best_users: List[str] = []
+        same_user_best_similarity = 0.0
+        same_user_issue_refs: List[str] = []
         current_text = normalized_text.get(claim.claim_id, "")
         if current_text:
             for other in normalized_claims:
-                if other.claim_id == claim.claim_id or other.user == claim.user:
+                if other.claim_id == claim.claim_id:
                     continue
                 sim = _text_similarity(current_text, normalized_text.get(other.claim_id, ""))
+                if other.user == claim.user:
+                    if other.issue_ref == claim.issue_ref:
+                        continue
+                    if sim > same_user_best_similarity + 1e-9:
+                        same_user_best_similarity = sim
+                        same_user_issue_refs = [other.issue_ref]
+                    elif abs(sim - same_user_best_similarity) <= 1e-9 and sim > 0:
+                        if other.issue_ref not in same_user_issue_refs:
+                            same_user_issue_refs.append(other.issue_ref)
+                    continue
                 if sim > best_similarity + 1e-9:
                     best_similarity = sim
                     best_users = [other.user]
                 elif abs(sim - best_similarity) <= 1e-9 and sim > 0:
                     if other.user not in best_users:
                         best_users.append(other.user)
+        if same_user_best_similarity >= policy.high_similarity:
+            issue_refs = ", ".join(sorted(same_user_issue_refs)[:2])
+            signals.append(
+                RiskSignal(
+                    "SELF_TEMPLATE_REUSE",
+                    12,
+                    f"same-user template reuse {same_user_best_similarity:.2f} across {issue_refs}",
+                )
+            )
+        elif same_user_best_similarity >= policy.medium_similarity:
+            issue_refs = ", ".join(sorted(same_user_issue_refs)[:2])
+            signals.append(
+                RiskSignal(
+                    "SELF_TEMPLATE_REUSE",
+                    6,
+                    f"same-user similar claims {same_user_best_similarity:.2f} across {issue_refs}",
+                )
+            )
         if best_similarity >= policy.high_similarity:
             peers = ", ".join(sorted(best_users)[:2])
             signals.append(
