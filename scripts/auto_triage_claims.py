@@ -19,9 +19,16 @@ import sys
 import urllib.error
 import urllib.parse
 import urllib.request
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional, Set
+
+try:
+    from scripts.sybil_risk_scorer import ClaimInput as RiskClaimInput
+    from scripts.sybil_risk_scorer import extract_links, score_claims
+except ImportError:  # pragma: no cover - direct script execution fallback
+    from sybil_risk_scorer import ClaimInput as RiskClaimInput
+    from sybil_risk_scorer import extract_links, score_claims
 
 
 DEFAULT_TARGETS = [
@@ -298,6 +305,7 @@ def _status_label(blockers: List[str]) -> str:
 
 @dataclass
 class ClaimResult:
+    claim_id: str
     user: str
     issue_ref: str
     comment_url: str
@@ -306,20 +314,85 @@ class ClaimResult:
     wallet: Optional[str]
     bottube_user: Optional[str]
     blockers: List[str]
+    proof_links: List[str] = field(default_factory=list)
+    body: str = ""
+    risk_score: int = 0
+    risk_level: str = "low"
+    risk_reasons: List[str] = field(default_factory=list)
 
     @property
     def status(self) -> str:
         return _status_label(self.blockers)
 
 
+def _apply_risk_scores(
+    results_by_issue: Dict[str, List[ClaimResult]],
+    policy_name: str,
+) -> None:
+    flat_rows = [row for rows in results_by_issue.values() for row in rows]
+    if not flat_rows:
+        return
+
+    inputs = [
+        RiskClaimInput(
+            claim_id=row.claim_id,
+            user=row.user,
+            issue_ref=row.issue_ref,
+            created_at=row.created_at,
+            body=row.body,
+            account_age_days=row.account_age_days,
+            wallet=row.wallet,
+            proof_links=tuple(row.proof_links),
+        )
+        for row in flat_rows
+    ]
+    risk_by_claim = {
+        item.claim_id: item
+        for item in score_claims(inputs, policy_name=policy_name)
+    }
+    for rows in results_by_issue.values():
+        for row in rows:
+            risk = risk_by_claim.get(row.claim_id)
+            if risk is None:
+                continue
+            row.risk_score = risk.score
+            row.risk_level = risk.level
+            row.risk_reasons = list(risk.reasons)
+        rows.sort(key=lambda r: (-r.risk_score, r.status != "eligible", r.user.lower()))
+
+
 def _build_report_md(
     generated_at: str,
     results_by_issue: Dict[str, List[ClaimResult]],
     since_hours: int,
+    risk_policy: str,
 ) -> str:
     lines: List[str] = []
     lines.append(f"### Auto-Triage Report ({generated_at})")
     lines.append(f"Window: last `{since_hours}`h")
+    lines.append(f"Risk policy: `{risk_policy}`")
+    lines.append("")
+
+    suspicious = sorted(
+        [
+            row
+            for rows in results_by_issue.values()
+            for row in rows
+            if row.risk_level != "low"
+        ],
+        key=lambda row: (-row.risk_score, row.user.lower(), row.issue_ref.lower()),
+    )
+    lines.append("#### Suspicious Claims")
+    if not suspicious:
+        lines.append("_No medium/high risk claims in this window._")
+    else:
+        lines.append("| User | Issue | Risk | Score | Reasons | Comment |")
+        lines.append("|---|---|---|---:|---|---|")
+        for row in suspicious[:10]:
+            reasons = ", ".join(row.risk_reasons)
+            lines.append(
+                f"| @{row.user} | {row.issue_ref} | `{row.risk_level}` | {row.risk_score} | {reasons} | [link]({row.comment_url}) |"
+            )
     lines.append("")
     for issue_ref, rows in results_by_issue.items():
         lines.append(f"#### {issue_ref}")
@@ -328,16 +401,17 @@ def _build_report_md(
             lines.append("")
             continue
         lines.append(
-            "| User | Status | Age(d) | Wallet | BoTTube | Blockers | Comment |"
+            "| User | Risk | Score | Status | Age(d) | Wallet | BoTTube | Reasons | Blockers | Comment |"
         )
-        lines.append("|---|---|---:|---|---|---|---|")
+        lines.append("|---|---|---:|---|---:|---|---|---|---|---|")
         for r in rows:
             age = "" if r.account_age_days is None else str(r.account_age_days)
             wallet = r.wallet or ""
             bt = r.bottube_user or ""
+            reasons = ", ".join(r.risk_reasons)
             blockers = ", ".join(r.blockers) if r.blockers else ""
             lines.append(
-                f"| @{r.user} | `{r.status}` | {age} | `{wallet}` | `{bt}` | {blockers} | [link]({r.comment_url}) |"
+                f"| @{r.user} | `{r.risk_level}` | {r.risk_score} | `{r.status}` | {age} | `{wallet}` | `{bt}` | {reasons} | {blockers} | [link]({r.comment_url}) |"
             )
         lines.append("")
     return "\n".join(lines).strip()
@@ -359,6 +433,7 @@ def _ignored_users() -> Set[str]:
 def main() -> int:
     token = _env("GITHUB_TOKEN")
     since_hours = int(_env("SINCE_HOURS", "72"))
+    risk_policy = _env("TRIAGE_RISK_POLICY", "balanced")
     ignored_users = _ignored_users()
     targets_json = os.environ.get("TRIAGE_TARGETS_JSON", "").strip()
     if targets_json:
@@ -445,6 +520,7 @@ def main() -> int:
             merged_body = "\n\n".join(info["bodies"])
             wallet = _extract_wallet(merged_body)
             bottube_user = _extract_bottube_user(merged_body)
+            proof_links = list(extract_links(merged_body))
             blockers: List[str] = []
 
             if age_days is not None and age_days < min_age:
@@ -468,6 +544,7 @@ def main() -> int:
 
             rows.append(
                 ClaimResult(
+                    claim_id=info["latest_url"] or f"{issue_ref}:{user}:{info['latest_created']}",
                     user=user,
                     issue_ref=issue_ref,
                     comment_url=info["latest_url"],
@@ -476,15 +553,17 @@ def main() -> int:
                     wallet=wallet,
                     bottube_user=bottube_user,
                     blockers=blockers,
+                    proof_links=proof_links,
+                    body=merged_body,
                 )
             )
 
-        # Deterministic ordering
-        rows.sort(key=lambda r: (r.status != "eligible", r.user.lower()))
         results_by_issue[issue_ref] = rows
 
+    _apply_risk_scores(results_by_issue, risk_policy)
+
     generated_at = _now_utc().isoformat().replace("+00:00", "Z")
-    report = _build_report_md(generated_at, results_by_issue, since_hours)
+    report = _build_report_md(generated_at, results_by_issue, since_hours, risk_policy)
     print(report)
 
     ledger_repo = os.environ.get("LEDGER_REPO", "").strip()
