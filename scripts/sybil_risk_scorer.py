@@ -8,7 +8,7 @@ import re
 from dataclasses import asdict, dataclass, field
 from difflib import SequenceMatcher
 from pathlib import Path
-from typing import Iterable, List, Mapping, Optional, Sequence, Tuple
+from typing import List, Mapping, Optional, Sequence, Tuple
 from urllib.parse import urlsplit, urlunsplit
 
 URL_RE = re.compile(r"https?://[^\s<>()\]]+")
@@ -67,8 +67,14 @@ class ClaimInput:
     created_at: str
     body: str = ""
     account_age_days: Optional[int] = None
+    claim_age_hours: Optional[float] = None
+    silence_hours: Optional[float] = None
     wallet: Optional[str] = None
     proof_links: Tuple[str, ...] = ()
+    linked_pr_url: Optional[str] = None
+    linked_pr_state: Optional[str] = None
+    linked_pr_draft: Optional[bool] = None
+    linked_pr_created_at: Optional[str] = None
 
 
 @dataclass(frozen=True)
@@ -144,6 +150,29 @@ def _bucket(score: int, policy: RiskPolicy) -> str:
     return "low"
 
 
+def _coerce_float(value: object) -> Optional[float]:
+    if value is None:
+        return None
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _coerce_bool(value: object) -> Optional[bool]:
+    if value is None:
+        return None
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        lowered = value.strip().lower()
+        if lowered in {"true", "1", "yes"}:
+            return True
+        if lowered in {"false", "0", "no"}:
+            return False
+    return None
+
+
 def _coerce_claim(claim: Mapping[str, object]) -> ClaimInput:
     proof_links = claim.get("proof_links") or ()
     if isinstance(proof_links, list):
@@ -166,8 +195,14 @@ def _coerce_claim(claim: Mapping[str, object]) -> ClaimInput:
         created_at=str(claim.get("created_at") or ""),
         body=str(claim.get("body") or ""),
         account_age_days=age_days,
+        claim_age_hours=_coerce_float(claim.get("claim_age_hours")),
+        silence_hours=_coerce_float(claim.get("silence_hours")),
         wallet=(str(wallet).strip() or None) if wallet is not None else None,
         proof_links=proof_tuple,
+        linked_pr_url=(str(claim.get("linked_pr_url") or "").strip() or None),
+        linked_pr_state=(str(claim.get("linked_pr_state") or "").strip() or None),
+        linked_pr_draft=_coerce_bool(claim.get("linked_pr_draft")),
+        linked_pr_created_at=(str(claim.get("linked_pr_created_at") or "").strip() or None),
     )
 
 
@@ -207,6 +242,27 @@ def score_claims(
                 signals.append(RiskSignal("ACCOUNT_AGE", 24, f"account age {age_days}d"))
             elif age_days < policy.young_account_days:
                 signals.append(RiskSignal("ACCOUNT_AGE", 12, f"account age {age_days}d"))
+
+        claim_age_hours = claim.claim_age_hours
+        if claim_age_hours is not None and claim_age_hours >= 24 and not claim.linked_pr_url:
+            signals.append(
+                RiskSignal(
+                    "NO_LINKED_PR_24H",
+                    14,
+                    f"no linked PR after {claim_age_hours:.1f}h",
+                )
+            )
+
+        silence_hours = claim.silence_hours
+        if silence_hours is not None and silence_hours >= 72:
+            points = 18 if not claim.linked_pr_url else 10
+            signals.append(
+                RiskSignal(
+                    "STALE_SESSION_72H",
+                    points,
+                    f"no session or PR activity for {silence_hours:.1f}h",
+                )
+            )
 
         claim_count = user_claim_counts.get(claim.user, 0)
         if claim_count >= policy.high_velocity_claims:

@@ -138,6 +138,7 @@ Before queueing payout:
 - Verify no duplicate/alt claims for the same action.
 - Post pending ID + tx hash in an issue comment for auditability.
 - Check the auto-triage risk score and reasons before approving suspicious claims.
+- Use the auto-triage action output to decide whether to `prioritize`, `watch`, `request_details`, or `release_claim`.
 
 ### Quality Gate Scorecard
 
@@ -166,6 +167,7 @@ For bounties over `30 RTC`, staged payout is recommended:
 
 Automation:
 - `scripts/auto_triage_claims.py` builds a recurring triage report.
+- `scripts/auto_triage_claims.py` tracks claim sessions, linked PR state, claim age, and stale activity windows.
 - `scripts/sybil_risk_scorer.py` provides explainable claim risk scoring used by auto-triage.
 - `.github/workflows/auto-triage-claims.yml` updates the payout ledger issue block.
 - `docs/CLAIM_RISK_SCORER.md` documents heuristics, policy modes, and limitations.

@@ -37,6 +37,34 @@ class SybilRiskScorerTests(unittest.TestCase):
         self.assertIn("ACCOUNT_AGE", result.reasons)
         self.assertGreater(result.score, 0)
 
+    def test_no_linked_pr_after_24h_is_flagged(self):
+        claims = [
+            ClaimInput(
+                claim_id="c-1",
+                user="slow-claimant",
+                issue_ref="Scottcjn/rustchain-bounties#476",
+                created_at="2026-02-28T00:00:00Z",
+                body="Claiming this bounty with a plan soon.",
+                claim_age_hours=30,
+            )
+        ]
+        result = score_claims(claims)[0]
+        self.assertIn("NO_LINKED_PR_24H", result.reasons)
+
+    def test_stale_session_after_72h_is_flagged(self):
+        claims = [
+            ClaimInput(
+                claim_id="c-1",
+                user="idle-claimant",
+                issue_ref="Scottcjn/rustchain-bounties#476",
+                created_at="2026-02-28T00:00:00Z",
+                body="Claiming this bounty with a plan soon.",
+                silence_hours=80,
+            )
+        ]
+        result = score_claims(claims)[0]
+        self.assertIn("STALE_SESSION_72H", result.reasons)
+
     def test_wallet_reuse_flags_multiple_accounts(self):
         claims = [
             ClaimInput("c-1", "user-a", "Scottcjn/rustchain-bounties#1", "2026-02-28T00:00:00Z", wallet="shared_wallet"),
